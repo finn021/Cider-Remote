@@ -2,7 +2,7 @@ name: Build iOS App
 
 on:
   push:
-    branches: [ main ] # Change this if your default branch is named 'master'
+    branches: [ main ]
 
 jobs:
   build:
@@ -25,12 +25,16 @@ jobs:
                    -sdk iphoneos \
                    CODE_SIGNING_ALLOWED=NO \
                    CODE_SIGNING_REQUIRED=NO \
-                   clean build
+                   build
 
-    - name: Package into IPA Wrapper
+    - name: Package IPA
       run: |
         mkdir -p Payload
-        mv build/Release-iphoneos/*.app Payload/
+        
+        # Copy the built app directly from Xcode's DerivedData folder
+        cp -r /Users/runner/Library/Developer/Xcode/DerivedData/*/Build/Products/Release-iphoneos/*.app Payload/
+        
+        # Zip the Payload folder into the final .ipa
         zip -r CiderRemote.ipa Payload
 
     - name: Upload IPA Artifacts
