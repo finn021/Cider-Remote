@@ -34,7 +34,7 @@ jobs:
         zip -r CiderRemote.ipa Payload
 
     - name: Upload IPA Artifacts
-      uses: actions/artifacts@v4
+      uses: actions/upload-artifact@v4
       with:
         name: CiderRemote-App
         path: CiderRemote.ipa
